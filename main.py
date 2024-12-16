@@ -2,7 +2,7 @@
 from aiogram import executor
 from config import bot, dp, Admins
 import logging
-from handlers import commands, echo, quiz, fsm_reg
+from handlers import commands, echo, quiz, fsm_reg, FSM_store
 import buttons
 from db import main_db
 
@@ -20,7 +20,9 @@ async def on_shutdown(_):
 
 commands.register_cpmmands_handlers(dp)
 quiz.register_quiz_handlers(dp)
+
 fsm_reg.register_fsmreg_handlers(dp)
+FSM_store.store_fsm_handlers(dp)
 
 echo.register_echo_handlers(dp)
 
