@@ -50,8 +50,7 @@ def fetch_all_products():
     conn = get_db_connection()
     products = conn.execute("""
     SELECT * from store s
-    INNER JOIN store_details  sd 
-    ON s.product_id = sd.product_id
+    INNER JOIN store_details  sd ON s.product_id = sd.product_id
     """).fetchall()
     conn.close()
     return products
@@ -68,3 +67,25 @@ def delete_product(product_id):
     conn.commit()
     conn.close()
 
+
+
+# CRUD - Update
+# =====================================================
+def update_product_field(product_id, field_name, new_valeu):
+    store_table = ["name_product", "size", "price", "photo"]
+    store_detail_table = ["info_product", "category"]
+    conn = get_db_connection()
+    try:
+        if field_name in store_table:
+            query = f'UPDATE store SET {field_name} = ? WHERE product_id = ?'
+        elif field_name in store_detail_table:
+            query = f'UPDATE store_detail SET {field_name} = ? WHERE product_id = ?'
+        else:
+            raise ValueError(f'Нет такого поля {field_name}')
+
+        conn.execute(query, (new_valeu, product_id))
+        conn.commit()
+    except sqlite3.OperationalError as e:
+        print(f'Ошибка - {e}')
+    finally:
+        conn.close()

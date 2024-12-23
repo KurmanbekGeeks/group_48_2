@@ -87,13 +87,13 @@ async def load_photo(message: types.Message, state: FSMContext):
 async def load_submit(message: types.Message, state: FSMContext):
     if message.text == 'Да':
         async with state.proxy() as data:
-            # await main_db.sql_insert_store(
-            #     name_product=data['name_product'],
-            #     size=data['size'],
-            #     price=data['price'],
-            #     product_id=data['product_id'],
-            #     photo=data['photo']
-            # )
+            await main_db.sql_insert_store(
+                name_product=data['name_product'],
+                size=data['size'],
+                price=data['price'],
+                product_id=data['product_id'],
+                photo=data['photo']
+            )
             await main_db.sql_insert_store_detail(
                 category=data['category'],
                 info_product=data['info_product'],
